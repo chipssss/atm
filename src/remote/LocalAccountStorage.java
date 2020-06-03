@@ -41,10 +41,10 @@ public class LocalAccountStorage implements IAccountStorage {
     @Override
     public TransactionStatusCode withdraw(String account, int money) {
         Account currentUser = storage.get(account);
-        // 是否超过当天限额
         if (currentUser == null) {
             return TransactionStatusCode.ERROR_NO_KNOWN;
         }
+        // 是否超过当天限额
         if (currentUser.getTotalDaily() + money > limitToday) {
             return TransactionStatusCode.ERROR_WITH_LIMIT;
         }

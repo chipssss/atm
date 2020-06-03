@@ -21,4 +21,8 @@ public enum TransactionStatusCode {
     public String getMsg() {
         return msg;
     }
+
+    public boolean isSuccess() {
+        return this == SUCCESS;
+    }
 }

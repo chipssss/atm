@@ -19,6 +19,8 @@ import domain.ATM;
 import domain.CardReader;
 import domain.CashDispenser;
 import domain.ReceiptPrinter;
+import remote.TransactionStatusCode;
+import util.Util;
 
 /**
  * 视图主窗口
@@ -219,10 +221,22 @@ public class AtmFrame extends JFrame implements KeyListener {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO 交给你了....  //取款,如果取款成功，ATM控制钞箱打开吐超口吐钞(激活button显示吐钞金额)
             	                    //后续逻辑：用户取走现金后(按下button)，显示打印凭证面板。
-            	
+				int enterAmount = Util.parseNumber(withdrawlPanel.getAmountTextField().getText());
+				if (enterAmount == 0) {
+					showMsg("请输入正确金额数");
+					return;
+				}
+            	TransactionStatusCode statusCode = atm.enterAmount(enterAmount);
+				if (!statusCode.isSuccess()) {
+					// 交易失败
+					showMsg("交易失败," + statusCode.getMsg());
+					return;
+				}
+
             	//以下两行代码仅为方便可以通过界面完整演示操作逻辑。
-            	//实际代码非如此，逻辑代码也不一定在此处，需删除。
-            	((AbstractButton) getCashDispenser()).setText("200RMB/仅测试"); 
+            	//交易成功
+				showMsg("取款成功");
+            	((AbstractButton) getCashDispenser()).setText(enterAmount + "RMB");
             	((AbstractButton) getCashDispenser()).setEnabled(true); 
             	
 	        }
@@ -277,7 +291,7 @@ public class AtmFrame extends JFrame implements KeyListener {
 				displayPanel.add(getLoginPanel());
 				this.repaint();
 			}else {               // 银行卡无效，提示卡号无效
-				JOptionPane.showMessageDialog(null, "卡号无效，请重新尝试");
+				showMsg("卡号无效，请重新尝试");
 			}
 		}
 		
@@ -293,6 +307,10 @@ public class AtmFrame extends JFrame implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	private void showMsg(String msg) {
+		JOptionPane.showMessageDialog(null, msg, "", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

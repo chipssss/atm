@@ -4,6 +4,7 @@ import physical.CardReaderSimulation;
 import physical.CashDispenserSimulation;
 import physical.ReceiptPrinterSimulation;
 import remote.AccountTransactionService;
+import remote.TransactionStatusCode;
 
 /**
  * 控制器
@@ -39,30 +40,49 @@ public class ATM {
 	public boolean validatePassword(String password){ //返回类型、方法名、参数各组自行设计
 		return accountTransactionService.validatePassword(currentAccount, password);
 	}
-	
-	/**
-	 * XXXXXX
-	 * 系统顺序图中的第三个事件。
-	 */
-  	public void operation3(){ //返回类型、方法名、参数各组自行设计
-  		
+
+
+	public void makeNewWithdraw() {
+
 	}
-	
-	
+
 	/**
 	 * XXXXXX
 	 * 系统顺序图中的第N个事件。
 	 */
-	public void operationN(){  //返回类型、方法名、参数各组自行设计
-	
+	public TransactionStatusCode enterAmount(int quantity){  //返回类型、方法名、参数各组自行设计
+		TransactionStatusCode statusCode = accountTransactionService.withDraw(currentAccount, quantity);
+		if (statusCode.isSuccess()) {
+			// 记录凭证
+		}
+		// 成功时记录事件
+		return statusCode;
 	}
+
+	public void printReceipt() {
+
+	}
+
+	public void endWithdraw() {
+
+	}
+
+	public void returnCard() {
+
+	}
+
+	public void returnMoney() {
+		// 吐钞
+	}
+
+
 	
 	/**
 	 * ATM开机
 	 */
 	public void turnOn(){
 		cardReader = new CardReaderSimulation();
-		cashDispenser = new CashDispenserSimulation(10000.00);  //模拟钞箱中放入10000元
+		cashDispenser = new CashDispenserSimulation(Config.CASE_BALACE);  //模拟钞箱中放入10000元
 		receiptPrinter = new ReceiptPrinterSimulation();
 	}
 	//getter

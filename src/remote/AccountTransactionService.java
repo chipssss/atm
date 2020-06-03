@@ -1,5 +1,7 @@
 package remote;
 
+import domain.Config;
+
 /**
  * 模拟远程账户交易类
  * ATM实际为客户端系统，需要远程账户交易系统作为后台。
@@ -12,10 +14,9 @@ package remote;
  */
 public class AccountTransactionService {
 	private IAccountStorage storage;
-	private static int LIMIT_DAILY = 2000;
 
 	public AccountTransactionService() {
-		storage = new LocalAccountStorage(LIMIT_DAILY);
+		storage = new LocalAccountStorage(Config.LIMIT_DAILY);
 	}
 
 	/**
