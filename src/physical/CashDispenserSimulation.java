@@ -1,7 +1,7 @@
 package physical;
 
 
-import javax.swing.JButton;
+import javax.swing.*;
 
 import domain.CashDispenser;
 
@@ -17,16 +17,27 @@ public class CashDispenserSimulation extends JButton implements CashDispenser{
 	
 	/**
 	 * 吐钞
-	 * 
+	 *
+	 * @param transactionMoney
 	 */
 	@Override
-	public void dispenseCash() {
-		//TODO 交给你了...
+	public void dispenseCash(double transactionMoney) {
+		setEnabled(true);
+		cashBalance -= transactionMoney;
+		String output = String.format("%.2f RMB", transactionMoney);
+		setText(output);
 	}
 
 	@Override
-	public void close() {	
-		//TODO 交给你了...
+	public void close() {
+		setEnabled(false);
+		String output = String.format("%.2f RMB", cashBalance);
+		setText("钞箱余额" + output);
+	}
+
+	@Override
+	public boolean checkEnough(double money) {
+		return money <= cashBalance;
 	}
 
 }

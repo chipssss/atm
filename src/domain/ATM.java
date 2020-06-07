@@ -1,10 +1,13 @@
 package domain;
 
+import entity.Operation;
+import entity.PerformStatus;
 import physical.CardReaderSimulation;
 import physical.CashDispenserSimulation;
 import physical.ReceiptPrinterSimulation;
 import remote.AccountTransactionService;
 import remote.TransactionStatusCode;
+import util.Util;
 
 /**
  * 控制器
@@ -17,7 +20,7 @@ public class ATM {
 	private ReceiptPrinter receiptPrinter;
 
 	private AccountTransactionService accountTransactionService = new AccountTransactionService();
-	private String currentAccount;
+	private PerformStatus performStatus = new PerformStatus();
 
 	/**
 	 * XXXXXX
@@ -28,7 +31,7 @@ public class ATM {
 		boolean success = accountTransactionService.validateAccount(account);
 		if (success) {
 			// 读卡成功时，ATM记录当前账号
-			currentAccount = account;
+			performStatus.setAccount(account);
 		}
 		return success;
 	}
@@ -38,7 +41,7 @@ public class ATM {
 	 * @param password
 	 */
 	public boolean validatePassword(String password){ //返回类型、方法名、参数各组自行设计
-		return accountTransactionService.validatePassword(currentAccount, password);
+		return accountTransactionService.validatePassword(performStatus.getAccount(), password);
 	}
 
 
@@ -50,29 +53,38 @@ public class ATM {
 	 * XXXXXX
 	 * 系统顺序图中的第N个事件。
 	 */
-	public TransactionStatusCode enterAmount(int quantity){  //返回类型、方法名、参数各组自行设计
-		TransactionStatusCode statusCode = accountTransactionService.withDraw(currentAccount, quantity);
+	public TransactionStatusCode enterAmount(double quantity){  //返回类型、方法名、参数各组自行设计
+		// 检查机箱余额
+		if (!cashDispenser.checkEnough(quantity)) {
+			return TransactionStatusCode.ERROR_WITH_CASH_BALANCE;
+		}
+
+		TransactionStatusCode statusCode = accountTransactionService.withDraw(performStatus.getAccount(), quantity);
 		if (statusCode.isSuccess()) {
 			// 记录凭证
+			performStatus.setTransactionMoney(quantity);
+			performStatus.setReceipt(quantity, Operation.WITHDRAW);
 		}
 		// 成功时记录事件
 		return statusCode;
 	}
 
 	public void printReceipt() {
-
+		if (performStatus.getReceipt() != null)
+			receiptPrinter.printReceipt(performStatus.getReceipt());
 	}
 
 	public void endWithdraw() {
-
+		cashDispenser.close();
 	}
 
 	public void returnCard() {
-
+		performStatus.reset();
 	}
 
-	public void returnMoney() {
+	public void dispenseCash() {
 		// 吐钞
+		cashDispenser.dispenseCash(performStatus.getTransactionMoney());
 	}
 
 

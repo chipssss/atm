@@ -8,5 +8,5 @@ package remote;
 public interface IAccountStorage {
     boolean validate(String account);
     boolean validatePassword(String account, String password);
-    TransactionStatusCode withdraw(String account, int money);
+    TransactionStatusCode withdraw(String account, double money);
 }

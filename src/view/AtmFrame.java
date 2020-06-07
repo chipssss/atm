@@ -161,7 +161,6 @@ public class AtmFrame extends JFrame implements KeyListener {
 		LoginPanel loginPanel = new LoginPanel();
 		loginPanel.getRightBtn4().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	//TODO 交给你了......
 				String password = String.valueOf(loginPanel.getPasswordField().getPassword());
 				boolean success = atm.validatePassword(password);
 				if (success) {
@@ -175,7 +174,6 @@ public class AtmFrame extends JFrame implements KeyListener {
         });
 		loginPanel.getLeftBtn4().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	//TODO 交给你了
             	refreshDisplayPanel(new WelcomePanel()); //验证密码失败，返回欢迎面板
             }
         });
@@ -192,12 +190,14 @@ public class AtmFrame extends JFrame implements KeyListener {
 			servicePanel.getLeftBtn1().addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent arg0) {
 	            	//TODO 交给你了....
+					atm.makeNewWithdraw();
 	            	refreshDisplayPanel(getWithdrawPanel()); //选择取款交易，显示取款面板
 	            }
 	        });
 			servicePanel.getLeftBtn4().addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent arg0) {
 	            	//TODO 交给你了......
+					atm.endWithdraw();
 	            	refreshDisplayPanel(new WelcomePanel()); //选择退出，返回欢迎面板
 	            }
 	        });
@@ -221,7 +221,7 @@ public class AtmFrame extends JFrame implements KeyListener {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO 交给你了....  //取款,如果取款成功，ATM控制钞箱打开吐超口吐钞(激活button显示吐钞金额)
             	                    //后续逻辑：用户取走现金后(按下button)，显示打印凭证面板。
-				int enterAmount = Util.parseNumber(withdrawlPanel.getAmountTextField().getText());
+				double enterAmount = Util.parseNumber(withdrawlPanel.getAmountTextField().getText());
 				if (enterAmount == 0) {
 					showMsg("请输入正确金额数");
 					return;
@@ -236,9 +236,8 @@ public class AtmFrame extends JFrame implements KeyListener {
             	//以下两行代码仅为方便可以通过界面完整演示操作逻辑。
             	//交易成功
 				showMsg("取款成功");
-            	((AbstractButton) getCashDispenser()).setText(enterAmount + "RMB");
-            	((AbstractButton) getCashDispenser()).setEnabled(true); 
-            	
+				atm.dispenseCash();
+
 	        }
         });
 		return withdrawlPanel;
@@ -252,7 +251,7 @@ public class AtmFrame extends JFrame implements KeyListener {
 		printPanel.getLeftBtn4().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
             	//TODO 交给你了 ......
-            	
+            	atm.endWithdraw();
             	refreshDisplayPanel(getServicePanel()); //放弃打印凭证，返回服务菜单面板
             	
             	
@@ -260,8 +259,7 @@ public class AtmFrame extends JFrame implements KeyListener {
         });
 		printPanel.getRightBtn4().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-            	//TODO 交给你了 ......
-            	
+            	atm.printReceipt();
             	refreshDisplayPanel(getServicePanel());//打印凭证，返回服务菜单面板
             	
             }

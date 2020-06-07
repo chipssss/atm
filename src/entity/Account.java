@@ -8,7 +8,7 @@ package entity;
 public class Account {
     private String account;
     private String password;
-    private int balance;
+    private double balance;
     /**
      * 当天累计
      */
@@ -29,7 +29,7 @@ public class Account {
      * @param money
      * @return true 提款成功， false，失败
      */
-    public boolean withdraw(int money) {
+    public boolean withdraw(double money) {
         boolean success = balance - money >= 0;
         if (success) {
             balance -= money;

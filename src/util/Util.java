@@ -1,17 +1,21 @@
 package util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.SimpleFormatter;
+
 /**
  * @author: chips
  * @date: 2020-06-03
  * @description:
  **/
 public class Util {
-    public static int parseNumber(String number) {
-        int num = 0;
+    public static double parseNumber(String number) {
+        double num = 0;
         if (strNullOrEmpty(number))
             return num;
         try {
-           num = Integer.parseInt(number);
+           num = Double.parseDouble(number);
         } catch (Exception e) {
             // number format exception
         }

@@ -38,7 +38,7 @@ public class AccountTransactionService {
 	/**
 	 * 远程账户交易服务
 	 */
-	public TransactionStatusCode withDraw(String account, int money){ //返回值及参数各组自行设计
+	public TransactionStatusCode withDraw(String account, double money){ //返回值及参数各组自行设计
 		return storage.withdraw(account, money);
 	}
 }

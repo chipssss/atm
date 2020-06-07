@@ -8,11 +8,14 @@ public interface CashDispenser {
 	/**
 	 * 打开吐钞口
 	 * 吐钞
+	 * @param transactionMoney
 	 */
-	public void dispenseCash(); //返回值及参数各组自行设计
+	public void dispenseCash(double transactionMoney); //返回值及参数各组自行设计
 	/**
 	 * 关闭吐钞口
 	 * 顾客取走现金
 	 */
 	public void close(); //返回值及参数各组自行设计
+
+	boolean checkEnough(double money);
 }

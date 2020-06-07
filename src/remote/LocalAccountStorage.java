@@ -39,7 +39,7 @@ public class LocalAccountStorage implements IAccountStorage {
     }
 
     @Override
-    public TransactionStatusCode withdraw(String account, int money) {
+    public TransactionStatusCode withdraw(String account, double money) {
         Account currentUser = storage.get(account);
         if (currentUser == null) {
             return TransactionStatusCode.ERROR_NO_KNOWN;

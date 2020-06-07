@@ -8,7 +8,7 @@ public class ReceiptPrinterSimulation extends JTextArea implements ReceiptPrinte
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void printReceipt() {
-		//TODO 交给你了....
+	public void printReceipt(String receiptLog) {
+		setText(receiptLog);
 	}
 }
