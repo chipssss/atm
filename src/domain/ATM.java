@@ -41,7 +41,11 @@ public class ATM {
 	 * @param password
 	 */
 	public boolean validatePassword(String password){ //返回类型、方法名、参数各组自行设计
-		return accountTransactionService.validatePassword(performStatus.getAccount(), password);
+		boolean success = accountTransactionService.validatePassword(performStatus.getAccount(), password);
+		if (success) {
+			cardReader.keepCard();
+		}
+		return success;
 	}
 
 
@@ -80,6 +84,7 @@ public class ATM {
 
 	public void returnCard() {
 		performStatus.reset();
+		cardReader.exitCard();
 	}
 
 	public void dispenseCash() {

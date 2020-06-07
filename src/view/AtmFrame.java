@@ -197,7 +197,7 @@ public class AtmFrame extends JFrame implements KeyListener {
 			servicePanel.getLeftBtn4().addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent arg0) {
 	            	//TODO 交给你了......
-					atm.endWithdraw();
+					atm.returnCard();
 	            	refreshDisplayPanel(new WelcomePanel()); //选择退出，返回欢迎面板
 	            }
 	        });

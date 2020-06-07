@@ -9,6 +9,7 @@ import util.Logger;
 public class CardReaderSimulation extends JTextField implements CardReader{
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = "CardReaderSimulation";
+	private boolean enable;
 
 	@Override
 	public String readCard() {
@@ -19,12 +20,12 @@ public class CardReaderSimulation extends JTextField implements CardReader{
 
 	@Override
 	public void exitCard() {
-		// TODO 交给你了	
+		enable = false;
 	}
 
 	@Override
 	public void keepCard() {
-		// TODO 交给你了	
+		enable = true;
 	}
 
 }
