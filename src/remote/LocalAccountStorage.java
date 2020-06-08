@@ -35,7 +35,7 @@ public class LocalAccountStorage implements IAccountStorage {
         Account cur = storage.get(account);
         if (cur == null)
             return false;
-        return cur.validate(account);
+        return cur.validate(password);
     }
 
     @Override
